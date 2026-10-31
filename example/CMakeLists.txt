@@ -30,11 +30,31 @@ FetchContent_MakeAvailable(lvgl)
 
 target_link_libraries(lvgl PRIVATE SDL2::SDL2)
 
+include(../cmake/lv_theme_yaml.cmake)
+
 add_executable(lv_theme_yaml_example)
+
+lv_theme_yaml_add(lv_theme_yaml_example
+    COLORS theme/colors.yaml
+    FONTS  theme/fonts.yaml
+    THEMES
+        theme/day.yaml
+        theme/night.yaml
+)
 
 target_sources(lv_theme_yaml_example
     PRIVATE
         src/main.cpp
+        src/day_theme.cpp
+        src/night_theme.cpp
+        icon/day/ar/return.c
+        icon/day/fr/paint.c
+        icon/day/fr/return.c
+        icon/night/ar/return.c
+        icon/night/fr/paint.c
+        icon/night/fr/return.c
 )
+
+target_include_directories(lv_theme_yaml_example PRIVATE include)
 
 target_link_libraries(lv_theme_yaml_example PRIVATE lvgl)
