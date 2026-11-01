@@ -25,8 +25,8 @@ else()
 
     FetchContent_Declare(
         lvgl
-        GIT_REPOSITORY https://github.com/lvgl/lvgl.git
-        GIT_TAG v9.6.0
+        GIT_REPOSITORY https://github.com/tanguy-rdt/lvgl.git
+        GIT_TAG replace_theme
     )
     FetchContent_MakeAvailable(lvgl)
 endif()

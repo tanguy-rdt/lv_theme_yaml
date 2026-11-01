@@ -1,3 +1,5 @@
 .venv
 CMakeUserPresets.json
 build
+.idea
+.DS_Store

@@ -106,17 +106,6 @@ static bool is_arabic() {
     return lang && std::string_view(lang) == "ar";
 }
 
-static lv_obj_tree_walk_res_t replace_theme_styles(lv_obj_t* obj, void* user_data) {
-    auto* next = static_cast<Theme*>(user_data);
-    auto from = current_theme->rules();
-    auto to = next->rules();
-
-    for (size_t i = 0; i < from.size(); ++i) {
-        lv_obj_replace_style(obj, from[i].style, to[i].style, from[i].selector);
-    }
-    return LV_OBJ_TREE_WALK_NEXT;
-}
-
 static void switch_theme(Theme* next) {
     if (next == current_theme) {
         return;
@@ -126,8 +115,7 @@ static void switch_theme(Theme* next) {
         return;
     }
 
-    lv_display_set_theme(lv_display_get_default(), next->lv());
-    lv_obj_tree_walk(nullptr, replace_theme_styles, next);
+    lv_display_replace_theme(nullptr, next->lv());
 
     current_theme = next;
     lv_obj_send_event(screen, EVENT_THEME_CHANGED, next);
@@ -221,6 +209,7 @@ static lv_obj_t* create_text_button(lv_obj_t* parent, const char* tag) {
 
 static lv_obj_t* create_icon_button(lv_obj_t* parent, lv_obj_t** icon) {
     lv_obj_t* btn = lv_button_create(parent);
+    lv_obj_set_style_bg_color(btn, lv_color_make(255, 0, 0), 0);
     *icon = lv_image_create(btn);
     lv_obj_center(*icon);
     return btn;
