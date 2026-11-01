@@ -7,11 +7,17 @@
 #     [OUTPUT_DIR <dir>])            # default: ${CMAKE_CURRENT_BINARY_DIR}/<target>_theme_gen
 #
 # Generates the theme sources from the YAML files at build time, adds them to <target>
-# and adds the output directory to its include paths.
+# and adds <OUTPUT_DIR>/include to its include paths. The output is laid out as:
+#
+#     <OUTPUT_DIR>/include/       headers
+#     <OUTPUT_DIR>/src/           theme sources
+#     <OUTPUT_DIR>/src/images/    converted images
 
 include_guard(GLOBAL)
 
 set(_LV_THEME_YAML_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/../scripts/gen_theme.py")
+file(GLOB_RECURSE _LV_THEME_YAML_PACKAGE CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_LIST_DIR}/../scripts/lv_theme_yaml/*.py")
 
 function(lv_theme_yaml_add target)
     cmake_parse_arguments(PARSE_ARGV 1 ARG "" "COLORS;FONTS;LVGL_DIR;IMAGE_CF;OUTPUT_DIR" "THEMES")
@@ -29,11 +35,10 @@ function(lv_theme_yaml_add target)
     endforeach()
 
     if(NOT ARG_LVGL_DIR)
-        if(TARGET lvgl)
-            get_target_property(ARG_LVGL_DIR lvgl SOURCE_DIR)
-        else()
-            message(FATAL_ERROR "lv_theme_yaml_add: LVGL_DIR not given and no lvgl target found")
+        if(NOT lvgl_SOURCE_DIR)
+            message(FATAL_ERROR "lv_theme_yaml_add: LVGL_DIR not given and lvgl_SOURCE_DIR is not set")
         endif()
+        set(ARG_LVGL_DIR "${lvgl_SOURCE_DIR}")
     endif()
     if(NOT ARG_IMAGE_CF)
         set(ARG_IMAGE_CF ARGB8888)
@@ -69,7 +74,8 @@ function(lv_theme_yaml_add target)
         set(${mode} ${list})
     endforeach()
 
-    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${inputs} "${_LV_THEME_YAML_SCRIPT}")
+    set(generator "${_LV_THEME_YAML_SCRIPT}" ${_LV_THEME_YAML_PACKAGE})
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${inputs} ${generator})
 
     set(stamp "${ARG_OUTPUT_DIR}/.stamp")
     add_custom_command(
@@ -77,12 +83,12 @@ function(lv_theme_yaml_add target)
         BYPRODUCTS ${outputs}
         COMMAND "${Python3_EXECUTABLE}" "${_LV_THEME_YAML_SCRIPT}" ${args} --stamp "${stamp}"
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-        DEPENDS ${inputs} "${_LV_THEME_YAML_SCRIPT}"
+        DEPENDS ${inputs} ${generator}
         COMMENT "Generating LVGL themes for ${target}"
         VERBATIM)
     add_custom_target(${target}_theme_gen DEPENDS "${stamp}")
 
     target_sources(${target} PRIVATE ${outputs})
-    target_include_directories(${target} PRIVATE "${ARG_OUTPUT_DIR}")
+    target_include_directories(${target} PRIVATE "${ARG_OUTPUT_DIR}/include")
     add_dependencies(${target} ${target}_theme_gen)
 endfunction()
