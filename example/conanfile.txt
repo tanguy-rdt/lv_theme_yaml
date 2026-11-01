@@ -1,0 +1,10 @@
+[requires]
+sdl/2.32.10
+lvgl-src/9.6.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout

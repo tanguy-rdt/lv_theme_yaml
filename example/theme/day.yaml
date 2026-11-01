@@ -1,0 +1,171 @@
+name: day
+
+images:
+  return:
+    ltr: ../icon/day/fr/return.png
+    rtl: ../icon/day/ar/return.png
+  paint: ../icon/day/fr/paint.png
+
+styles:
+  screen:
+    selectors: [":screen"]
+    props:
+      bg_color: day_screen_bg
+      bg_opa: LV_OPA_COVER
+      text_color: day_text
+      text_font: body
+      pad_all: 8
+      pad_gap: 8
+
+  card:
+    selectors: ["obj > obj"]
+    props:
+      bg_color: day_surface
+      bg_opa: LV_OPA_COVER
+      border_color: day_border
+      border_width: 1
+      radius: 12
+      pad_all: 12
+      pad_gap: 8
+
+  scrollbar:
+    selectors: ["obj::scrollbar"]
+    props:
+      bg_color: day_scrollbar
+      bg_opa: LV_OPA_COVER
+      radius: 4
+      width: 4
+
+  button:
+    selectors: ["button"]
+    props:
+      bg_color: day_surface_alt
+      bg_opa: LV_OPA_COVER
+      border_color: day_border
+      border_width: 1
+      radius: 8
+      text_color: day_text
+      pad_hor: 12
+      pad_ver: 8
+
+  button_pressed:
+    selectors: ["button:pressed"]
+    props:
+      bg_color: day_border
+
+  button_checked:
+    selectors: ["button:checked"]
+    props:
+      bg_color: day_primary
+      border_color: day_primary
+      text_color: day_on_primary
+
+  button_checked_pressed:
+    selectors: ["button:checked:pressed"]
+    props:
+      bg_color: day_primary_pressed
+
+  button_disabled:
+    selectors: ["button:disabled"]
+    props:
+      opa: LV_OPA_50
+
+  track:
+    selectors: ["slider", "bar", "switch"]
+    props:
+      bg_color: day_track
+      bg_opa: LV_OPA_COVER
+      radius: LV_RADIUS_CIRCLE
+
+  track_indicator:
+    selectors: ["slider::indicator", "bar::indicator", "switch:checked::indicator"]
+    props:
+      bg_color: day_primary
+      bg_opa: LV_OPA_COVER
+      radius: LV_RADIUS_CIRCLE
+
+  slider_knob:
+    selectors: ["slider::knob"]
+    props:
+      bg_color: day_knob
+      bg_opa: LV_OPA_COVER
+      border_color: day_primary
+      border_width: 2
+      radius: LV_RADIUS_CIRCLE
+      pad_all: 6
+
+  switch_knob:
+    selectors: ["switch::knob"]
+    props:
+      bg_color: day_knob
+      bg_opa: LV_OPA_COVER
+      radius: LV_RADIUS_CIRCLE
+      pad_all: -3
+
+  checkbox:
+    selectors: ["checkbox"]
+    props:
+      text_color: day_text
+      pad_gap: 8
+
+  checkbox_box:
+    selectors: ["checkbox::indicator"]
+    props:
+      bg_color: day_surface
+      bg_opa: LV_OPA_COVER
+      border_color: day_border
+      border_width: 2
+      radius: 4
+      pad_all: 3
+
+  checkbox_box_checked:
+    selectors: ["checkbox:checked::indicator"]
+    props:
+      bg_color: day_primary
+      border_color: day_primary
+      bg_image_src: LV_SYMBOL_OK
+      text_color: day_on_primary
+
+  arc:
+    selectors: ["arc", "spinner"]
+    props:
+      arc_color: day_track
+      arc_width: 10
+      arc_rounded: true
+
+  arc_indicator:
+    selectors: ["arc::indicator", "spinner::indicator"]
+    props:
+      arc_color: day_primary
+      arc_width: 10
+      arc_rounded: true
+
+  dropdown:
+    selectors: ["dropdown"]
+    props:
+      bg_color: day_surface_alt
+      bg_opa: LV_OPA_COVER
+      border_color: day_border
+      border_width: 1
+      radius: 8
+      text_color: day_text
+      pad_hor: 12
+      pad_ver: 8
+
+  dropdown_list:
+    selectors: ["dropdownlist"]
+    props:
+      bg_color: day_surface
+      bg_opa: LV_OPA_COVER
+      border_color: day_border
+      border_width: 1
+      radius: 8
+      text_color: day_text
+      pad_all: 4
+
+  dropdown_list_selected:
+    selectors: ["dropdownlist:checked::selected", "dropdownlist:pressed::selected"]
+    props:
+      bg_color: day_primary
+      bg_opa: LV_OPA_COVER
+      text_color: day_on_primary
